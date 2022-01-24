@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		40EC6C1C1F8AB9BA00E90619 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC6C1B1F8AB9BA00E90619 /* AppDelegate.swift */; };
+		40EC6C1E1F8AB9BA00E90619 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC6C1D1F8AB9BA00E90619 /* ViewController.swift */; };
+		40EC6C211F8AB9BA00E90619 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40EC6C1F1F8AB9BA00E90619 /* Main.storyboard */; };
+		40EC6C241F8AB9BA00E90619 /* SensorTagDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 40EC6C221F8AB9BA00E90619 /* SensorTagDemo.xcdatamodeld */; };
+		40EC6C261F8AB9BA00E90619 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40EC6C251F8AB9BA00E90619 /* Assets.xcassets */; };
+		40EC6C291F8AB9BA00E90619 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40EC6C271F8AB9BA00E90619 /* LaunchScreen.storyboard */; };
+		40EC6C341F8AB9BA00E90619 /* SensorTagDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC6C331F8AB9BA00E90619 /* SensorTagDemoTests.swift */; };
+		40EC6C3F1F8AB9BA00E90619 /* SensorTagDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC6C3E1F8AB9BA00E90619 /* SensorTagDemoUITests.swift */; };
+		40EC6C4D1F8AC13200E90619 /* I-SYST_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EC6C4C1F8AC13200E90619 /* I-SYST_Logo.png */; };
+		40F88F151F96BD8900E54E17 /* GraphSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F88F121F96BD8900E54E17 /* GraphSegment.swift */; };
+		40F88F161F96BD8900E54E17 /* CGContext+GraphLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F88F131F96BD8900E54E17 /* CGContext+GraphLines.swift */; };
+		40F88F171F96BD8900E54E17 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F88F141F96BD8900E54E17 /* GraphView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		40EC6C301F8AB9BA00E90619 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 40EC6C101F8AB9B900E90619 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 40EC6C171F8AB9BA00E90619;
+			remoteInfo = SensorTagDemo;
+		};
+		40EC6C3B1F8AB9BA00E90619 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 40EC6C101F8AB9B900E90619 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 40EC6C171F8AB9BA00E90619;
+			remoteInfo = SensorTagDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		40EC6C181F8AB9BA00E90619 /* SensorTagDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SensorTagDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		40EC6C1B1F8AB9BA00E90619 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		40EC6C1D1F8AB9BA00E90619 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		40EC6C201F8AB9BA00E90619 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		40EC6C231F8AB9BA00E90619 /* SensorTagDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SensorTagDemo.xcdatamodel; sourceTree = "<group>"; };
+		40EC6C251F8AB9BA00E90619 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		40EC6C281F8AB9BA00E90619 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		40EC6C2A1F8AB9BA00E90619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40EC6C2F1F8AB9BA00E90619 /* SensorTagDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SensorTagDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		40EC6C331F8AB9BA00E90619 /* SensorTagDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorTagDemoTests.swift; sourceTree = "<group>"; };
+		40EC6C351F8AB9BA00E90619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40EC6C3A1F8AB9BA00E90619 /* SensorTagDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SensorTagDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		40EC6C3E1F8AB9BA00E90619 /* SensorTagDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorTagDemoUITests.swift; sourceTree = "<group>"; };
+		40EC6C401F8AB9BA00E90619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40EC6C4C1F8AC13200E90619 /* I-SYST_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "I-SYST_Logo.png"; sourceTree = "<group>"; };
+		40F88F121F96BD8900E54E17 /* GraphSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphSegment.swift; sourceTree = "<group>"; };
+		40F88F131F96BD8900E54E17 /* CGContext+GraphLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGContext+GraphLines.swift"; sourceTree = "<group>"; };
+		40F88F141F96BD8900E54E17 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		40EC6C151F8AB9BA00E90619 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40EC6C2C1F8AB9BA00E90619 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40EC6C371F8AB9BA00E90619 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		40EC6C0F1F8AB9B900E90619 = {
+			isa = PBXGroup;
+			children = (
+				40EC6C1A1F8AB9BA00E90619 /* SensorTagDemo */,
+				40EC6C321F8AB9BA00E90619 /* SensorTagDemoTests */,
+				40EC6C3D1F8AB9BA00E90619 /* SensorTagDemoUITests */,
+				40EC6C191F8AB9BA00E90619 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		40EC6C191F8AB9BA00E90619 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				40EC6C181F8AB9BA00E90619 /* SensorTagDemo.app */,
+				40EC6C2F1F8AB9BA00E90619 /* SensorTagDemoTests.xctest */,
+				40EC6C3A1F8AB9BA00E90619 /* SensorTagDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		40EC6C1A1F8AB9BA00E90619 /* SensorTagDemo */ = {
+			isa = PBXGroup;
+			children = (
+				40F88F131F96BD8900E54E17 /* CGContext+GraphLines.swift */,
+				40F88F121F96BD8900E54E17 /* GraphSegment.swift */,
+				40F88F141F96BD8900E54E17 /* GraphView.swift */,
+				40EC6C4C1F8AC13200E90619 /* I-SYST_Logo.png */,
+				40EC6C1B1F8AB9BA00E90619 /* AppDelegate.swift */,
+				40EC6C1D1F8AB9BA00E90619 /* ViewController.swift */,
+				40EC6C1F1F8AB9BA00E90619 /* Main.storyboard */,
+				40EC6C251F8AB9BA00E90619 /* Assets.xcassets */,
+				40EC6C271F8AB9BA00E90619 /* LaunchScreen.storyboard */,
+				40EC6C2A1F8AB9BA00E90619 /* Info.plist */,
+				40EC6C221F8AB9BA00E90619 /* SensorTagDemo.xcdatamodeld */,
+			);
+			path = SensorTagDemo;
+			sourceTree = "<group>";
+		};
+		40EC6C321F8AB9BA00E90619 /* SensorTagDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				40EC6C331F8AB9BA00E90619 /* SensorTagDemoTests.swift */,
+				40EC6C351F8AB9BA00E90619 /* Info.plist */,
+			);
+			path = SensorTagDemoTests;
+			sourceTree = "<group>";
+		};
+		40EC6C3D1F8AB9BA00E90619 /* SensorTagDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				40EC6C3E1F8AB9BA00E90619 /* SensorTagDemoUITests.swift */,
+				40EC6C401F8AB9BA00E90619 /* Info.plist */,
+			);
+			path = SensorTagDemoUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		40EC6C171F8AB9BA00E90619 /* SensorTagDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 40EC6C431F8AB9BA00E90619 /* Build configuration list for PBXNativeTarget "SensorTagDemo" */;
+			buildPhases = (
+				40EC6C141F8AB9BA00E90619 /* Sources */,
+				40EC6C151F8AB9BA00E90619 /* Frameworks */,
+				40EC6C161F8AB9BA00E90619 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SensorTagDemo;
+			productName = SensorTagDemo;
+			productReference = 40EC6C181F8AB9BA00E90619 /* SensorTagDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		40EC6C2E1F8AB9BA00E90619 /* SensorTagDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 40EC6C461F8AB9BA00E90619 /* Build configuration list for PBXNativeTarget "SensorTagDemoTests" */;
+			buildPhases = (
+				40EC6C2B1F8AB9BA00E90619 /* Sources */,
+				40EC6C2C1F8AB9BA00E90619 /* Frameworks */,
+				40EC6C2D1F8AB9BA00E90619 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				40EC6C311F8AB9BA00E90619 /* PBXTargetDependency */,
+			);
+			name = SensorTagDemoTests;
+			productName = SensorTagDemoTests;
+			productReference = 40EC6C2F1F8AB9BA00E90619 /* SensorTagDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		40EC6C391F8AB9BA00E90619 /* SensorTagDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 40EC6C491F8AB9BA00E90619 /* Build configuration list for PBXNativeTarget "SensorTagDemoUITests" */;
+			buildPhases = (
+				40EC6C361F8AB9BA00E90619 /* Sources */,
+				40EC6C371F8AB9BA00E90619 /* Frameworks */,
+				40EC6C381F8AB9BA00E90619 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				40EC6C3C1F8AB9BA00E90619 /* PBXTargetDependency */,
+			);
+			name = SensorTagDemoUITests;
+			productName = SensorTagDemoUITests;
+			productReference = 40EC6C3A1F8AB9BA00E90619 /* SensorTagDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		40EC6C101F8AB9B900E90619 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0900;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "I-SYST inc.";
+				TargetAttributes = {
+					40EC6C171F8AB9BA00E90619 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+					40EC6C2E1F8AB9BA00E90619 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 40EC6C171F8AB9BA00E90619;
+					};
+					40EC6C391F8AB9BA00E90619 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 40EC6C171F8AB9BA00E90619;
+					};
+				};
+			};
+			buildConfigurationList = 40EC6C131F8AB9B900E90619 /* Build configuration list for PBXProject "SensorTagDemo" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 40EC6C0F1F8AB9B900E90619;
+			productRefGroup = 40EC6C191F8AB9BA00E90619 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				40EC6C171F8AB9BA00E90619 /* SensorTagDemo */,
+				40EC6C2E1F8AB9BA00E90619 /* SensorTagDemoTests */,
+				40EC6C391F8AB9BA00E90619 /* SensorTagDemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		40EC6C161F8AB9BA00E90619 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40EC6C291F8AB9BA00E90619 /* LaunchScreen.storyboard in Resources */,
+				40EC6C261F8AB9BA00E90619 /* Assets.xcassets in Resources */,
+				40EC6C211F8AB9BA00E90619 /* Main.storyboard in Resources */,
+				40EC6C4D1F8AC13200E90619 /* I-SYST_Logo.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40EC6C2D1F8AB9BA00E90619 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40EC6C381F8AB9BA00E90619 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		40EC6C141F8AB9BA00E90619 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40EC6C1E1F8AB9BA00E90619 /* ViewController.swift in Sources */,
+				40EC6C1C1F8AB9BA00E90619 /* AppDelegate.swift in Sources */,
+				40F88F161F96BD8900E54E17 /* CGContext+GraphLines.swift in Sources */,
+				40F88F151F96BD8900E54E17 /* GraphSegment.swift in Sources */,
+				40EC6C241F8AB9BA00E90619 /* SensorTagDemo.xcdatamodeld in Sources */,
+				40F88F171F96BD8900E54E17 /* GraphView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40EC6C2B1F8AB9BA00E90619 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40EC6C341F8AB9BA00E90619 /* SensorTagDemoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		40EC6C361F8AB9BA00E90619 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40EC6C3F1F8AB9BA00E90619 /* SensorTagDemoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		40EC6C311F8AB9BA00E90619 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 40EC6C171F8AB9BA00E90619 /* SensorTagDemo */;
+			targetProxy = 40EC6C301F8AB9BA00E90619 /* PBXContainerItemProxy */;
+		};
+		40EC6C3C1F8AB9BA00E90619 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 40EC6C171F8AB9BA00E90619 /* SensorTagDemo */;
+			targetProxy = 40EC6C3B1F8AB9BA00E90619 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		40EC6C1F1F8AB9BA00E90619 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40EC6C201F8AB9BA00E90619 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		40EC6C271F8AB9BA00E90619 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40EC6C281F8AB9BA00E90619 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		40EC6C411F8AB9BA00E90619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		40EC6C421F8AB9BA00E90619 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		40EC6C441F8AB9BA00E90619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 75P57S8LPC;
+				INFOPLIST_FILE = SensorTagDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.i-syst.SensorTagDemo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		40EC6C451F8AB9BA00E90619 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 75P57S8LPC;
+				INFOPLIST_FILE = SensorTagDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.i-syst.SensorTagDemo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		40EC6C471F8AB9BA00E90619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SensorTagDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.i-syst.SensorTagDemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SensorTagDemo.app/SensorTagDemo";
+			};
+			name = Debug;
+		};
+		40EC6C481F8AB9BA00E90619 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SensorTagDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.i-syst.SensorTagDemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SensorTagDemo.app/SensorTagDemo";
+			};
+			name = Release;
+		};
+		40EC6C4A1F8AB9BA00E90619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SensorTagDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.i-syst.SensorTagDemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SensorTagDemo;
+			};
+			name = Debug;
+		};
+		40EC6C4B1F8AB9BA00E90619 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SensorTagDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.i-syst.SensorTagDemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SensorTagDemo;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		40EC6C131F8AB9B900E90619 /* Build configuration list for PBXProject "SensorTagDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40EC6C411F8AB9BA00E90619 /* Debug */,
+				40EC6C421F8AB9BA00E90619 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		40EC6C431F8AB9BA00E90619 /* Build configuration list for PBXNativeTarget "SensorTagDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40EC6C441F8AB9BA00E90619 /* Debug */,
+				40EC6C451F8AB9BA00E90619 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		40EC6C461F8AB9BA00E90619 /* Build configuration list for PBXNativeTarget "SensorTagDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40EC6C471F8AB9BA00E90619 /* Debug */,
+				40EC6C481F8AB9BA00E90619 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		40EC6C491F8AB9BA00E90619 /* Build configuration list for PBXNativeTarget "SensorTagDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40EC6C4A1F8AB9BA00E90619 /* Debug */,
+				40EC6C4B1F8AB9BA00E90619 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		40EC6C221F8AB9BA00E90619 /* SensorTagDemo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				40EC6C231F8AB9BA00E90619 /* SensorTagDemo.xcdatamodel */,
+			);
+			currentVersion = 40EC6C231F8AB9BA00E90619 /* SensorTagDemo.xcdatamodel */;
+			path = SensorTagDemo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 40EC6C101F8AB9B900E90619 /* Project object */;
+}

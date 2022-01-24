@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7187C51F-7D3E-4B65-8ED8-C4367F96D10D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>UartBle</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>18B06F4D62CC42CD368E27030C9311243E041A57</key>
+		<string>https://github.com/I-SYST/iOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>UartBle/UartBle.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>18B06F4D62CC42CD368E27030C9311243E041A57</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/I-SYST/iOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>18B06F4D62CC42CD368E27030C9311243E041A57</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>18B06F4D62CC42CD368E27030C9311243E041A57</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>
