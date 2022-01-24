@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Magnetometer</string>
+    <string name="ble_not_supported">Bluetooth not supported</string>
+    <string name="ble_supported">Bluetooth supported</string>
+</resources>

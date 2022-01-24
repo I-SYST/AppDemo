@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="100dp"
+        android:layout_height="43dp"
+        android:text="START"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/stop_button"
+        android:layout_width="100dp"
+        android:layout_height="43dp"
+        android:text="STOP"
+        android:textSize="15sp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/start_button"
+        app:layout_constraintLeft_toRightOf="@+id/start_button" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/MagXChart"
+        android:layout_width="match_parent"
+        android:layout_height="160sp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_button" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/MagYChart"
+        android:layout_width="match_parent"
+        android:layout_height="160sp"
+        android:layout_marginTop="20dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MagXChart" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/MagZChart"
+        android:layout_width="match_parent"
+        android:layout_height="160sp"
+        android:layout_marginTop="20dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MagYChart" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
