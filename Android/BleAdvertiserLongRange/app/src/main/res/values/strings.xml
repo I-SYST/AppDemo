@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BleAdvertiserLongRange</string>
+    <string name="ble_not_supported">Ble not supported</string>
+    <string name="ble_supported">Ble supported</string>
+</resources>
