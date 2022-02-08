@@ -184,7 +184,7 @@ namespace BlueIOThingy
                             byte[] humiBytes = new byte[2];
                             System.Buffer.BlockCopy(data, 7, humiBytes, 0, 2);
                             int humi = BitConverter.ToInt16(humiBytes, 0);
-                            string humiStr = String.Format("{0:0.00} C", (float)humi / 100.0);
+                            string humiStr = String.Format("{0:0.00} %", (float)humi / 100.0);
                             xValue += 1;
                             listBox2.Invoke(new Action(() => listBox2.Items.Add("Pressure: " + pressStr + "; Temperature: " + tempStr + "; Humidity: " + humiStr)));
                             TempChart.Invoke(new Action(() => TempSeries.Points.AddXY(xValue, (float)temp / 100.0)));
