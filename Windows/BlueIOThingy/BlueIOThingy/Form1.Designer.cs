@@ -29,16 +29,22 @@ namespace BlueIOThingy
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.scanBtn = new System.Windows.Forms.Button();
             this.stopBtn = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
@@ -56,10 +62,18 @@ namespace BlueIOThingy
             this.rssiLabel = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.AQILabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.GasLabel = new System.Windows.Forms.Label();
+            this.GasChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.AQIChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.TempChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HumiChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PressChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GasChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AQIChart)).BeginInit();
             this.SuspendLayout();
             // 
             // scanBtn
@@ -104,24 +118,24 @@ namespace BlueIOThingy
             // 
             this.TempChart.BackColor = System.Drawing.Color.Transparent;
             this.TempChart.BackSecondaryColor = System.Drawing.Color.Silver;
-            chartArea4.Name = "ChartArea1";
-            this.TempChart.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            legend4.Position.Auto = false;
-            legend4.Position.Height = 11.70569F;
-            legend4.Position.Width = 23.46369F;
-            legend4.Position.X = 73.53632F;
-            legend4.Position.Y = 3F;
-            this.TempChart.Legends.Add(legend4);
+            chartArea6.Name = "ChartArea1";
+            this.TempChart.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            legend6.Position.Auto = false;
+            legend6.Position.Height = 11.70569F;
+            legend6.Position.Width = 23.46369F;
+            legend6.Position.X = 73.53632F;
+            legend6.Position.Y = 3F;
+            this.TempChart.Legends.Add(legend6);
             this.TempChart.Location = new System.Drawing.Point(23, 557);
             this.TempChart.Name = "TempChart";
-            series4.BorderWidth = 2;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Color = System.Drawing.Color.Red;
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.TempChart.Series.Add(series4);
+            series6.BorderWidth = 2;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Color = System.Drawing.Color.Red;
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.TempChart.Series.Add(series6);
             this.TempChart.Size = new System.Drawing.Size(538, 300);
             this.TempChart.TabIndex = 4;
             this.TempChart.Text = "chart1";
@@ -129,24 +143,24 @@ namespace BlueIOThingy
             // HumiChart
             // 
             this.HumiChart.BackColor = System.Drawing.Color.Transparent;
-            chartArea5.Name = "ChartArea1";
-            this.HumiChart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            legend5.Position.Auto = false;
-            legend5.Position.Height = 11.70569F;
-            legend5.Position.Width = 23.46369F;
-            legend5.Position.X = 73.53632F;
-            legend5.Position.Y = 3F;
-            this.HumiChart.Legends.Add(legend5);
+            chartArea7.Name = "ChartArea1";
+            this.HumiChart.ChartAreas.Add(chartArea7);
+            legend7.Name = "Legend1";
+            legend7.Position.Auto = false;
+            legend7.Position.Height = 11.70569F;
+            legend7.Position.Width = 23.46369F;
+            legend7.Position.X = 73.53632F;
+            legend7.Position.Y = 3F;
+            this.HumiChart.Legends.Add(legend7);
             this.HumiChart.Location = new System.Drawing.Point(591, 557);
             this.HumiChart.Name = "HumiChart";
-            series5.BorderWidth = 2;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Color = System.Drawing.Color.Green;
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.HumiChart.Series.Add(series5);
+            series7.BorderWidth = 2;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series7.Color = System.Drawing.Color.Green;
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            this.HumiChart.Series.Add(series7);
             this.HumiChart.Size = new System.Drawing.Size(538, 300);
             this.HumiChart.TabIndex = 5;
             this.HumiChart.Text = "chart2";
@@ -154,25 +168,25 @@ namespace BlueIOThingy
             // PressChart
             // 
             this.PressChart.BackColor = System.Drawing.Color.Transparent;
-            chartArea6.BackColor = System.Drawing.Color.White;
-            chartArea6.Name = "ChartArea1";
-            this.PressChart.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            legend6.Position.Auto = false;
-            legend6.Position.Height = 11.70569F;
-            legend6.Position.Width = 23.46369F;
-            legend6.Position.X = 73.53632F;
-            legend6.Position.Y = 3F;
-            this.PressChart.Legends.Add(legend6);
+            chartArea8.BackColor = System.Drawing.Color.White;
+            chartArea8.Name = "ChartArea1";
+            this.PressChart.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            legend8.Position.Auto = false;
+            legend8.Position.Height = 11.70569F;
+            legend8.Position.Width = 23.46369F;
+            legend8.Position.X = 73.53632F;
+            legend8.Position.Y = 3F;
+            this.PressChart.Legends.Add(legend8);
             this.PressChart.Location = new System.Drawing.Point(1161, 557);
             this.PressChart.Name = "PressChart";
-            series6.BorderWidth = 2;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Color = System.Drawing.Color.Blue;
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.PressChart.Series.Add(series6);
+            series8.BorderWidth = 2;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series8.Color = System.Drawing.Color.Blue;
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            this.PressChart.Series.Add(series8);
             this.PressChart.Size = new System.Drawing.Size(538, 300);
             this.PressChart.TabIndex = 6;
             this.PressChart.Text = "chart3";
@@ -271,11 +285,104 @@ namespace BlueIOThingy
             this.label5.TabIndex = 16;
             this.label5.Text = "BlueIOThingy";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(1563, 352);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 20);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "AQI:";
+            // 
+            // AQILabel
+            // 
+            this.AQILabel.AutoSize = true;
+            this.AQILabel.Location = new System.Drawing.Point(1625, 352);
+            this.AQILabel.Name = "AQILabel";
+            this.AQILabel.Size = new System.Drawing.Size(18, 20);
+            this.AQILabel.TabIndex = 18;
+            this.AQILabel.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1563, 383);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 20);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "Gas:";
+            // 
+            // GasLabel
+            // 
+            this.GasLabel.AutoSize = true;
+            this.GasLabel.Location = new System.Drawing.Point(1625, 383);
+            this.GasLabel.Name = "GasLabel";
+            this.GasLabel.Size = new System.Drawing.Size(18, 20);
+            this.GasLabel.TabIndex = 20;
+            this.GasLabel.Text = "0";
+            // 
+            // GasChart
+            // 
+            this.GasChart.BackColor = System.Drawing.Color.Transparent;
+            chartArea9.Name = "ChartArea1";
+            this.GasChart.ChartAreas.Add(chartArea9);
+            legend9.Name = "Legend1";
+            legend9.Position.Auto = false;
+            legend9.Position.Height = 11.70569F;
+            legend9.Position.Width = 23.46369F;
+            legend9.Position.X = 73.53632F;
+            legend9.Position.Y = 3F;
+            this.GasChart.Legends.Add(legend9);
+            this.GasChart.Location = new System.Drawing.Point(591, 874);
+            this.GasChart.Name = "GasChart";
+            series9.BorderWidth = 2;
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series9.Color = System.Drawing.Color.Magenta;
+            series9.Legend = "Legend1";
+            series9.Name = "Series1";
+            this.GasChart.Series.Add(series9);
+            this.GasChart.Size = new System.Drawing.Size(538, 300);
+            this.GasChart.TabIndex = 22;
+            this.GasChart.Text = "chart2";
+            // 
+            // AQIChart
+            // 
+            this.AQIChart.BackColor = System.Drawing.Color.Transparent;
+            this.AQIChart.BackSecondaryColor = System.Drawing.Color.Silver;
+            chartArea10.Name = "ChartArea1";
+            this.AQIChart.ChartAreas.Add(chartArea10);
+            legend10.Name = "Legend1";
+            legend10.Position.Auto = false;
+            legend10.Position.Height = 11.70569F;
+            legend10.Position.Width = 23.46369F;
+            legend10.Position.X = 73.53632F;
+            legend10.Position.Y = 3F;
+            this.AQIChart.Legends.Add(legend10);
+            this.AQIChart.Location = new System.Drawing.Point(23, 874);
+            this.AQIChart.Name = "AQIChart";
+            series10.BorderWidth = 2;
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series10.Color = System.Drawing.Color.Gold;
+            series10.Legend = "Legend1";
+            series10.Name = "Series1";
+            this.AQIChart.Series.Add(series10);
+            this.AQIChart.Size = new System.Drawing.Size(538, 300);
+            this.AQIChart.TabIndex = 21;
+            this.AQIChart.Text = "chart1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1733, 910);
+            this.ClientSize = new System.Drawing.Size(1733, 1186);
+            this.Controls.Add(this.GasChart);
+            this.Controls.Add(this.AQIChart);
+            this.Controls.Add(this.GasLabel);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.AQILabel);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.rssiLabel);
@@ -299,6 +406,8 @@ namespace BlueIOThingy
             ((System.ComponentModel.ISupportInitialize)(this.HumiChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PressChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GasChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AQIChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,6 +432,12 @@ namespace BlueIOThingy
         private System.Windows.Forms.Label rssiLabel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label AQILabel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label GasLabel;
+        private System.Windows.Forms.DataVisualization.Charting.Chart GasChart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart AQIChart;
     }
 }
 

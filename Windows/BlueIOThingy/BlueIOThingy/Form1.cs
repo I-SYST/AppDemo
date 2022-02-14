@@ -29,6 +29,7 @@ namespace BlueIOThingy
         long WriteDescriptorMilis = 0;
         Stopwatch stopwatch;
         long xValue = 0;
+        long xValue2 = 0;
         bool scanFlag = true;
         public List<string> MyList
         {
@@ -37,6 +38,8 @@ namespace BlueIOThingy
         Series TempSeries = null;
         Series HumiSeries = null;
         Series PressSeries = null;
+        Series AQISeries = null;
+        Series GasSeries = null;
         public Form1()
         {
             InitializeComponent();
@@ -75,6 +78,22 @@ namespace BlueIOThingy
             PressSeries.BorderWidth = 2;
             PressChart.ChartAreas[0].AxisY.IsStartedFromZero = false;
             PressChart.ChartAreas[0].RecalculateAxesScale();
+
+            AQIChart.Series.Clear();
+            AQISeries = AQIChart.Series.Add("AQI");
+            AQISeries.ChartType = SeriesChartType.Spline;
+            AQISeries.Color = Color.Gold;
+            AQISeries.BorderWidth = 2;
+            AQIChart.ChartAreas[0].AxisY.IsStartedFromZero = false;
+            AQIChart.ChartAreas[0].RecalculateAxesScale();
+
+            GasChart.Series.Clear();
+            GasSeries = GasChart.Series.Add("Gas");
+            GasSeries.ChartType = SeriesChartType.Spline;
+            GasSeries.Color = Color.Magenta;
+            GasSeries.BorderWidth = 2;
+            GasChart.ChartAreas[0].AxisY.IsStartedFromZero = false;
+            GasChart.ChartAreas[0].RecalculateAxesScale();
         }
         private void scanBtn_Click(object sender, EventArgs e)
         {
@@ -196,7 +215,28 @@ namespace BlueIOThingy
                             PressChart.Invoke(new Action(() => PressSeries.Points.AddXY(xValue, (float)press / 1000.0)));
                             pressLabel.Invoke(new Action(() => pressLabel.Text = pressStr));
                             PressChart.Invoke(new Action(() => PressChart.ChartAreas[0].RecalculateAxesScale()));
+                        }else if (data[0] == 2)
+                        {
+                            xValue2 += 1;
+                            listBox1.Invoke(new Action(() => listBox1.Items.Add("Advertiserment Data = " + manufacturerDataString)));
+                            byte[] AQIBytes = new byte[2];
+                            System.Buffer.BlockCopy(data, 5, AQIBytes, 0, 2);
+                            int AQI = BitConverter.ToInt16(AQIBytes, 0);
+                            string AQIStr = String.Format("{0:0}", AQI);
+
+                            byte[] GasBytes = new byte[4];
+                            System.Buffer.BlockCopy(data, 1, GasBytes, 0, 4);
+                            int Gas = BitConverter.ToInt32(GasBytes, 0);
+                            string GasStr = String.Format("{0:0.00}", (float)Gas / 1000.0);
+
+                            listBox2.Invoke(new Action(() => listBox2.Items.Add("AQI: " + AQIStr + "; Gas resistance: " + GasStr)));
+                            AQILabel.Invoke(new Action(() => AQILabel.Text = AQIStr));
+                            GasLabel.Invoke(new Action(() => GasLabel.Text = GasStr));
+
+                            AQIChart.Invoke(new Action(() => AQISeries.Points.AddXY(xValue2, AQI)));
+                            GasChart.Invoke(new Action(() => GasSeries.Points.AddXY(xValue2, (float)Gas / 1000.0)));
                         }
+
                     }
                 }
                 else
