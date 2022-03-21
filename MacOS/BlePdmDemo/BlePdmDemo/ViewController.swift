@@ -9,15 +9,16 @@ import Cocoa
 import CoreBluetooth
 
 
+
 class BlePdmPeripheral: NSObject {
 
-        //public static let BLE_PDM_UUID_SERVICE   = CBUUID.init(string: "00000100-3462-475C-96E9-58C72CFF09AA")
-        //public static let BLE_PDM_CFG_UUID_CHAR   = CBUUID.init(string: "00000200-3462-475C-96E9-58C72CFF09AA")
-        //public static let BLE_PDM_DATA_UUID_CHAR   = CBUUID.init(string: "00000101-3462-475C-96E9-58C72CFF09AA")
+        public static let BLE_PDM_UUID_SERVICE   = CBUUID.init(string: "00000100-3462-475C-96E9-58C72CFF09AA")
+        public static let BLE_PDM_CFG_UUID_CHAR   = CBUUID.init(string: "00000200-3462-475C-96E9-58C72CFF09AA")
+        public static let BLE_PDM_DATA_UUID_CHAR   = CBUUID.init(string: "00000101-3462-475C-96E9-58C72CFF09AA")
     
-        public static let BLE_PDM_UUID_SERVICE   = CBUUID.init(string: "00000001-2a76-4901-a32a-db0eea85d0e5")
-        public static let BLE_PDM_CFG_UUID_CHAR   = CBUUID.init(string: "00000002-2a76-4901-a32a-db0eea85d0e5")
-        public static let BLE_PDM_DATA_UUID_CHAR   = CBUUID.init(string: "00000003-2a76-4901-a32a-db0eea85d0e5")
+        //public static let BLE_PDM_UUID_SERVICE   = CBUUID.init(string: "00000001-2a76-4901-a32a-db0eea85d0e5")
+        //public static let BLE_PDM_CFG_UUID_CHAR   = CBUUID.init(string: "00000002-2a76-4901-a32a-db0eea85d0e5")
+        //public static let BLE_PDM_DATA_UUID_CHAR   = CBUUID.init(string: "00000003-2a76-4901-a32a-db0eea85d0e5")
         
     }
 
@@ -178,8 +179,8 @@ class ViewController: NSViewController, CBCentralManagerDelegate, CBPeripheralDe
     }
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         if let pname = peripheral.name {
-            print(peripheral.name)
-            if pname == "BlePdmDemo" {
+            //print(peripheral.name)
+            if pname == "Badger" {
                 //self.bleCentral.stopScan()
                 //mDeviceNameLabel.text = peripheral.name
                 self.mBlePdmDevice = peripheral
@@ -337,7 +338,9 @@ class ViewController: NSViewController, CBCentralManagerDelegate, CBPeripheralDe
         //print("characteristic description:", characteristic.description)
         
         let data = characteristic.value
-        print(data)
+        //print(data)
+        
+        
         let counter_data = data![0...4]
         
         let counter_array = UInt32(bigEndian: counter_data.withUnsafeBytes { $0.pointee })
@@ -355,7 +358,7 @@ class ViewController: NSViewController, CBCentralManagerDelegate, CBPeripheralDe
             current_pkt = pkt_counter
         }
         
-        print(current_pkt)
+        //print(current_pkt)
         if (current_pkt >= previous_pkt) {
             let drop_pkt = Int32(current_pkt - previous_pkt)
             if ( drop_pkt > 1) {
@@ -368,7 +371,14 @@ class ViewController: NSViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         
         let audio_data = data![4...data!.count-1]
-        //print(audio_data)
+        print(audio_data)
+        let uintArray = [UInt8](audio_data)
+        //print(uintArray)
+        let intArray = uintArray.map { Int8(bitPattern: $0) }
+   
+        //let audio_data_int = Data(bytes: intArray, count: intArray.count)
+        
+        //print(intArray)
         if (previous_pkt > 50) {
             myStream.write(data: audio_data)
         }
@@ -380,6 +390,12 @@ class ViewController: NSViewController, CBCentralManagerDelegate, CBPeripheralDe
             
         }
         max_audio_value += 1
+        /*var max_audio_value = Int(0)
+        for i in intArray{
+            max_audio_value += Int(i)
+        }
+        max_audio_value = Int(max_audio_value/audio_data.count)*/
+        
         //print(max_audio_value)
         //print(pkt_counter)
         
