@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">IOThingy</string>
+    <string name="ble_not_supported">Bluetooth low energy not supported</string>
+</resources>

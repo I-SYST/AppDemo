@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreBluetooth
+import SceneKit
 
 class BlueIOPeripheral: NSObject {
 
@@ -21,12 +22,19 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     var bleCentral : CBCentralManager!
     var mBlueIODevice: CBPeripheral!
     var cube:CATransformLayer!
+ 
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         bleCentral = CBCentralManager(delegate: self, queue: DispatchQueue.main)
+        //switchDemo()
+        //isRunning = true
     }
-
+    
+    
+    
     func face(with transform: CATransform3D, color: UIColor) -> CALayer {
         let face = CALayer()
         face.frame = CGRect(x: -50, y: -50, width: 100, height: 100)
@@ -79,7 +87,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         /*let anim = CABasicAnimation(keyPath: "transform")
         anim.fromValue = cube.transform
         anim.toValue = CATransform3DMakeRotation(3*CGFloat.pi, 1, 1, 1)
-        anim.duration = 2
+        anim.duration = 1
         anim.isCumulative = true
         anim.repeatCount = .greatestFiniteMagnitude
         cube.add(anim, forKey: "transform")*/
@@ -228,17 +236,19 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         let X_array = Int32(bigEndian: Xdata.withUnsafeBytes { $0.pointee })
         let X = Float(Int32(bigEndian: X_array))/Float(1<<30)
-        print(X)
+        
         let Y_array = Int32(bigEndian: Ydata.withUnsafeBytes { $0.pointee })
         let Y = Float(Int32(bigEndian: Y_array))/Float(1<<30)
-        print(Y)
+        
         let Z_array = Int32(bigEndian: Zdata.withUnsafeBytes { $0.pointee })
         let Z = Float(Int32(bigEndian: Z_array))/Float(1<<30)
-        print(Z)
+        
         let W_array = Int32(bigEndian: Wdata.withUnsafeBytes { $0.pointee })
         let W = Float(Int32(bigEndian: W_array))/Float(1<<30)
-        print(W)
-        
+        print(String(format: "W: %.8f\u{00B0}", W))
+        print(String(format: "X: %.8f\u{00B0}", X))
+        print(String(format: "Y: %.8f\u{00B0}", Y))
+        print(String(format: "Z: %.8f\u{00B0}", Z))
         let angle = 2*acos(W)
         let rotateX = X/sin(angle/2)
         let rotateY = Y/sin(angle/2)
@@ -248,15 +258,17 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         anim.fromValue = cube.transform
         anim.toValue = CATransform3DMakeRotation(CGFloat(angle), CGFloat(rotateX), CGFloat(rotateY), CGFloat(rotateZ))
         
-        //anim.duration = 2
-        //anim.isCumulative = true
-        //anim.repeatCount = .greatestFiniteMagnitude
+        anim.duration = 2
+        anim.isCumulative = true
+        anim.repeatCount = .greatestFiniteMagnitude
         cube.add(anim, forKey: "transform")
+        cube.transform = CATransform3DMakeRotation(CGFloat(angle), CGFloat(rotateX), CGFloat(rotateY), CGFloat(rotateZ))
+        
+        
+        
+             
     
     }
-    func floatValue(data: Data) -> Float {
-        return Float(bitPattern: UInt32(bigEndian: data.withUnsafeBytes { $0.load(as: UInt32.self) }))
-        
-    }
+   
 }
 
