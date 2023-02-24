@@ -49,7 +49,8 @@ class BluetoothManager : NSObject, ObservableObject {
     @Published var device: BluetoothDevice!
     
     @Published var centralManager: CBCentralManager!
-    
+    @Published var readChar : CBCharacteristic! = nil
+    @Published var writeChar : CBCharacteristic! = nil
     @Published var SpiData: Data!
     @Published var SpiWriteData: Data!
     @Published var isSpiWrite = false
@@ -185,7 +186,7 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
                 let localName = advertisementData[CBAdvertisementDataLocalNameKey] as! NSString
                 //print("Local name is advertised:" + (localName as String))
                 let pname = String(localName)
-                if pname.contains("BleSpiBridge"){
+                if pname.contains("SpiBleBridge"){
                     let device = BluetoothDevice(peripheral: peripheral, rssi: RSSI, name: pname )
                     let index = devices.map { $0.peripheral }.firstIndex(of: peripheral)
                     if let index = index {
@@ -270,39 +271,25 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
                 }
                 //
                 if characteristic.uuid == BlueIOPeripheral.BLUEIO_UUID_SPI_TX_CHAR{
-                    if self.isSpiWrite{
+                    //if self.isSpiWrite{
                         print("SPI_WRITE characteristic found")
-                        
-                        let appData = self.SpiWriteData
-                        peripheral.writeValue(appData!, for: characteristic, type: .withoutResponse)
-                    }
+                        writeChar = characteristic
+                        //let appData = self.SpiWriteData
+                        //peripheral.writeValue(appData!, for: characteristic, type: .withoutResponse)
+                    //}
                 }
                 if characteristic.uuid == BlueIOPeripheral.BLUEIO_UUID_SPI_RX_CHAR{
                     //if self.isSpiRead{
-                        print("SPI_READ characteristic found")
+                    print("SPI_READ characteristic found")
+                    //readChar = characteristic
                         //peripheral.readValue(for: characteristic)
-                        peripheral.setNotifyValue(true, for: characteristic)
+                    peripheral.setNotifyValue(true, for: characteristic)
                     //}
                 }
                 
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                
-                /*if self.isModeUpdate {
-                    self.isModeUpdate = false
-                    self.disconnect()                    
-                    self.startConnect()
-                    //NotificationCenter.default.post(name: Notification.Name("SigCapConnectNotification"), object: nil)
-                }*/
-                if self.isSpiWrite {
-                    self.isSpiWrite = false
-                    //self.isSpiRead = true
-                    //self.disconnect()
-                    //self.startConnect()
-                }
-                
-            })
+           
             
                        
         }
@@ -310,6 +297,8 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let data = characteristic.value else { return }
+        print("Data write:")
+        print(data.count)
         os_log("\nValue: \(data) \nwas written to Characteristic:\n\(characteristic)")
         if(error != nil){
             os_log("\nError while writing on Characteristic:\n\(characteristic). Error Message:")
@@ -338,8 +327,8 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         print(data as Any)
         var arr2 = Array<UInt8>(repeating: 0, count: (data?.count ?? 0)/MemoryLayout<UInt8>.stride)
         _ = arr2.withUnsafeMutableBytes { data?.copyBytes(to: $0) }
-        print(arr2)
-        print(data!.hexEncodedString(options: .upperCase))
+        //print(arr2)
+        //print(data!.hexEncodedString(options: .upperCase))
         if characteristic.uuid == BlueIOPeripheral.BLUEIO_UUID_OPMODE_CTRL_READ_CHAR{
             //print(data)
             /*
@@ -364,10 +353,10 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
         }
         
         if characteristic.uuid == BlueIOPeripheral.BLUEIO_UUID_SPI_RX_CHAR{
-        
-            print("SPI Read data")
+            PckCounter += 1
+            print("SPI Read data:" + String(format: "%d", PckCounter))
             print(arr2)
-            print(data!.hexEncodedString(options: .upperCase))
+            //print(data!.hexEncodedString(options: .upperCase))
                 
                   
         }

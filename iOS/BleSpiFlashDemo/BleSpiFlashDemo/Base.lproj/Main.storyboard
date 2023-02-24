@@ -42,10 +42,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfo-lz-30a">
-                                <rect key="frame" x="25" y="163" width="57" height="35"/>
+                                <rect key="frame" x="21" y="163" width="65" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Test"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Write"/>
                                 <connections>
                                     <action selector="TestButtonClick:" destination="BYZ-38-t0r" eventType="touchDown" id="fT6-Yg-Lwc"/>
                                 </connections>
@@ -54,16 +54,46 @@
                                 <rect key="frame" x="25" y="219" width="352" height="206"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <color key="textColor" systemColor="systemGray5Color"/>
+                                <color key="textColor" systemColor="systemGreenColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCC-VL-w4M">
+                                <rect key="frame" x="94" y="163" width="63" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Read"/>
+                                <connections>
+                                    <action selector="ReadButtonClick:" destination="BYZ-38-t0r" eventType="touchDown" id="Mm2-xb-fbz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sih-d5-95M">
+                                <rect key="frame" x="167" y="163" width="67" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Erase"/>
+                                <connections>
+                                    <action selector="EraseClick:" destination="BYZ-38-t0r" eventType="touchDown" id="ebu-za-MSe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sm9-V7-P2w">
+                                <rect key="frame" x="250" y="163" width="102" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Connect"/>
+                                <connections>
+                                    <action selector="ConnectButtonClick:" destination="BYZ-38-t0r" eventType="touchDown" id="c1O-lw-YcJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="ConnectButton" destination="Sm9-V7-P2w" id="mPD-y0-2Nn"/>
                         <outlet property="DevicePicker" destination="eNQ-P7-Lu1" id="y0S-d8-tMl"/>
+                        <outlet property="Erase" destination="sih-d5-95M" id="5jl-1S-ffc"/>
+                        <outlet property="ReadButton" destination="xCC-VL-w4M" id="FnX-hh-uXh"/>
                         <outlet property="SPIDataTextView" destination="GFm-M5-Bin" id="Csg-4d-CxI"/>
                         <outlet property="ScanButton" destination="dHV-9q-4ep" id="hpc-U1-o2c"/>
                         <outlet property="TestButton" destination="yfo-lz-30a" id="DXl-zO-aZJ"/>
@@ -84,6 +114,9 @@
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
