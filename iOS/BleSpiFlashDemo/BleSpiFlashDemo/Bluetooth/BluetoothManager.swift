@@ -149,6 +149,10 @@ class BluetoothManager : NSObject, ObservableObject {
                 var arr2 = Array<UInt8>(repeating: 0, count: (self.SpiWriteData?.count ?? 0)/MemoryLayout<UInt8>.stride)
                 _ = arr2.withUnsafeMutableBytes { self.SpiWriteData?.copyBytes(to: $0) }
                 print(arr2)
+                while !self.device.peripheral.canSendWriteWithoutResponse {
+                    
+                }
+
                 self.device.peripheral.writeValue(self.SpiWriteData, for: self.writeChar, type: .withoutResponse)
                 
                 
@@ -186,7 +190,8 @@ class BluetoothManager : NSObject, ObservableObject {
     }
     func sendPacket(){
         
-            Task {
+           // Task {
+                /*
                 if !self.device.peripheral.canSendWriteWithoutResponse{
                     //print("Not Ready to write")
                     self.isReady = false
@@ -198,13 +203,18 @@ class BluetoothManager : NSObject, ObservableObject {
                     //print("Sleep for 0.1 second")
                     //try await Task.sleep(nanoseconds: 100_000_000)
                     
+                }*/
+                
+                while !self.device.peripheral.canSendWriteWithoutResponse {
+                    
                 }
-                if self.isReady{
+                 
+//                if self.isReady{
                     //print("Ready to write")
                     self.device.peripheral.writeValue(self.SpiWriteData, for: self.writeChar, type: .withoutResponse)
-                }
+//                }
                
-            }
+            //}
     }
     
     private func runScanningWhenNeeded() {
