@@ -55,6 +55,8 @@ class BluetoothManager : NSObject, ObservableObject {
     @Published var SpiWriteData: Data!
     @Published var isSpiWrite = false
     @Published var isSpiRead = false
+    @Published var isReady = false
+    @Published var packetNum: Int = 0
     
     private var isOnScreen = false
     private var isBluetoothReady = false
@@ -69,7 +71,8 @@ class BluetoothManager : NSObject, ObservableObject {
         super.init()
         os_log("init CBCentralManager")
         LogString = LogString + "\n[" + formatter1.string(from: Date.now) + "]: " + "init CBCentralManager"
-        centralManager = CBCentralManager(delegate: self, queue: nil)
+        let serialQueue =  DispatchQueue(label: "BleSpiFlashDemo", qos: .userInitiated)
+        centralManager = CBCentralManager(delegate: self, queue: serialQueue)
         formatter1.dateFormat = "y-MM-dd H:mm:ss.SSSS"
     }
     
@@ -113,6 +116,95 @@ class BluetoothManager : NSObject, ObservableObject {
     func stopScan() {
         isOnScreen = false
         centralManager.stopScan()
+    }
+    
+    func writeFlash(){
+        
+        var memAddress: UInt32 = 0x00000000
+        
+        PckCounter = 0
+         
+        var len = Int(packetNum)
+    
+        //DispatchQueue.global().async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+                print("write Flash_Write_Init command")
+                let command: [UInt8] = [0x15]
+                //let memAddress: [UInt8] = [0xFF,0xFF,0xFF,0xFF]
+                
+                let memAddress_bytes = withUnsafeBytes(of: memAddress.littleEndian, Array.init)
+                let dataLen: [UInt8] = [0x04,0x00]
+                //let data: [UInt8] = [UInt8](repeating: UInt8(Int.random(in: 0..<255)), count: 233)
+                let totalByteWrite: UInt32 = UInt32(len*233)
+                let totalByteWrite_bytes = withUnsafeBytes(of: totalByteWrite.littleEndian, Array.init)
+                let data: [UInt8] = totalByteWrite_bytes + [UInt8](repeating: UInt8(0xFF), count: 229)
+                
+                let messageData = NSMutableData()
+                messageData.append(Data(command))
+                messageData.append(Data(memAddress_bytes))
+                messageData.append(Data(dataLen))
+                messageData.append(Data(data))
+                
+                self.SpiWriteData = messageData as Data
+                var arr2 = Array<UInt8>(repeating: 0, count: (self.SpiWriteData?.count ?? 0)/MemoryLayout<UInt8>.stride)
+                _ = arr2.withUnsafeMutableBytes { self.SpiWriteData?.copyBytes(to: $0) }
+                print(arr2)
+                self.device.peripheral.writeValue(self.SpiWriteData, for: self.writeChar, type: .withoutResponse)
+                
+                
+                while len > 0{
+                    //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                    //print(len)
+                    let command: [UInt8] = [0x10]
+                    //let memAddress: [UInt8] = [0xFF,0xFF,0xFF,0xFF]
+                    
+                    let memAddress_bytes = withUnsafeBytes(of: memAddress.littleEndian, Array.init)
+                    let dataLen: [UInt8] = [0xE9,0x00]
+                    //let data: [UInt8] = [UInt8](repeating: UInt8(Int.random(in: 0..<255)), count: 233)
+                    let data: [UInt8] = memAddress_bytes + Array(0...228)
+                    
+                    let messageData = NSMutableData()
+                    messageData.append(Data(command))
+                    messageData.append(Data(memAddress_bytes))
+                    messageData.append(Data(dataLen))
+                    messageData.append(Data(data))
+                    
+                    self.SpiWriteData = messageData as Data
+                    var arr2 = Array<UInt8>(repeating: 0, count: (self.SpiWriteData?.count ?? 0)/MemoryLayout<UInt8>.stride)
+                    _ = arr2.withUnsafeMutableBytes { self.SpiWriteData?.copyBytes(to: $0) }
+                    //print(arr2)
+                    //self.bluetoothManager.device.peripheral.writeValue(self.bluetoothManager.SpiWriteData, for: self.bluetoothManager.writeChar, type: .withoutResponse)
+                    self.sendPacket()
+                    memAddress += 0xE9
+                    //print(memAddress)
+                    len -= 1
+                    //})
+                }
+                print("Finish writing Data\n")
+            })
+        //}
+    }
+    func sendPacket(){
+        
+            Task {
+                if !self.device.peripheral.canSendWriteWithoutResponse{
+                    //print("Not Ready to write")
+                    self.isReady = false
+                }
+                // Perform our operation
+                while (!self.isReady) {
+                     // app logic goes here
+                    // Delay the task by 1 second:
+                    //print("Sleep for 0.1 second")
+                    //try await Task.sleep(nanoseconds: 100_000_000)
+                    
+                }
+                if self.isReady{
+                    //print("Ready to write")
+                    self.device.peripheral.writeValue(self.SpiWriteData, for: self.writeChar, type: .withoutResponse)
+                }
+               
+            }
     }
     
     private func runScanningWhenNeeded() {
@@ -311,6 +403,14 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
 
         os_log("characteristic description:", characteristic.description)
     }
+    func peripheralIsReady (toSendWriteWithoutResponse peripheral: CBPeripheral)
+    {
+        //print("Error toSendWriteWithoutResponse!")
+        
+        //self.device.peripheral.writeValue(self.SpiWriteData, for: self.writeChar, type: .withoutResponse)
+        
+        isReady = true
+    }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?){
         //print("didUpdateValueFor")
@@ -357,6 +457,7 @@ extension BluetoothManager: CBCentralManagerDelegate, CBPeripheralDelegate {
             print("SPI Read data:" + String(format: "%d", PckCounter))
             print(arr2)
             //print(data!.hexEncodedString(options: .upperCase))
+            NotificationCenter.default.post(name: Notification.Name("ReceiveACKNotification"), object: nil)
                 
                   
         }
