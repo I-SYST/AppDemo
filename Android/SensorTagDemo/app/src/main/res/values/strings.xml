@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SensorTagDemo</string>
+    <string name="humidity">Humidity</string>
+    <string name="temperature">Temperature</string>
+    <string name="baro_pressure">Baro Pressure</string>
+    <string name="logo">I-Syst Logo</string>
 </resources>

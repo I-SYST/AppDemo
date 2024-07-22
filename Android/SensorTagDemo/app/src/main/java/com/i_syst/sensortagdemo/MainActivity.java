@@ -27,6 +27,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -40,8 +43,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class MainActivity extends Activity {
-
-
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mHandler;
     private BluetoothLeScanner mLEScanner;
@@ -57,14 +58,25 @@ public class MainActivity extends Activity {
     private boolean plotData = true;
     private LineData mTemperatureData;
 
+    private static final int REQUEST_CODE_PERMISSIONS = 1;
+    private static final String[] REQUIRED_PERMISSIONS = {
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    // Example of a call to a native method
-    //TextView tv = (TextView) findViewById(R.id.sample_text);
-    //tv.setText(stringFromJNI());
+        ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+
+        // Example of a call to a native method
+        //TextView tv = (TextView) findViewById(R.id.sample_text);
+        //tv.setText(stringFromJNI());
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
 
@@ -133,6 +145,30 @@ public class MainActivity extends Activity {
     static {
         System.loadLibrary("native-lib");
     } **/
+
+    private boolean hasPermissions(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (hasPermissions(REQUIRED_PERMISSIONS)) {
+                // All permissions granted, proceed with Bluetooth operations
+
+            } else {
+                // Handle the case where some or all permissions were denied
+                // You might display a message to the user or disable Bluetooth functionality
+            }
+        }
+    }
+
 
     private LineDataSet createSet(){
         LineDataSet set = new LineDataSet(null, "Temperature Data");
@@ -205,18 +241,18 @@ public class MainActivity extends Activity {
     private ScanCallback mScanCallback = new ScanCallback() {
         @Override
         public void onScanResult(final int callbackType, final ScanResult result) {
-            //super.onScanResult(callbackType, result);
+            super.onScanResult(callbackType, result);
 
-            //Toast.makeText(getApplicationContext(), "Scanning...", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Scanning...", Toast.LENGTH_LONG).show();
             Log.i("callbackType", String.valueOf(callbackType));
             Log.i("result", result.toString());
             BluetoothDevice device = result.getDevice();
             ScanRecord scanRecord = result.getScanRecord();
-            byte[] scanData = scanRecord.getBytes();
+            //byte[] scanData = scanRecord.getBytes();
             //String name = scanRecord.getDeviceName();
-            String name = device.getName();
-            String address = device.getAddress();
-            long deviceID = 0;
+            //String name = device.getName();
+            //String address = device.getAddress();
+            //long deviceID = 0;
             byte[] manuf = scanRecord.getManufacturerSpecificData(0x0177);
 
             if (manuf == null) {
@@ -247,11 +283,7 @@ public class MainActivity extends Activity {
                     addEntry((float) temp);
                     plotData = false;
                 }
-
-
             }
-
-
         }
         @Override
         public void onScanFailed(int errorCode) {

@@ -5,6 +5,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Service;
@@ -84,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
             //Log.i("result", result.toString());
             BluetoothDevice device = result.getDevice();
             ScanRecord scanRecord = result.getScanRecord();
-            byte[] scanData = scanRecord.getBytes();
+            //byte[] scanData = scanRecord.getBytes();
             //String name = scanRecord.getDeviceName();
-            String name = device.getName();
+            //String name = device.getName();
             String address = device.getAddress();
             //Log.i("Device address: ", address);
             //Device Badger_device = new Device(name,address);
@@ -125,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+
         mHandler = new Handler();
         mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, R.string.ble_supported, Toast.LENGTH_SHORT).show();
         }
-        askCoarsePermission();
+
 
         tv = findViewById(R.id.textView);
         locList = new LocationListener() {
@@ -212,9 +216,9 @@ public class MainActivity extends AppCompatActivity {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
+                if (b) {
                     deviceAddress = deviceAddress1; //840
-                }else{
+                } else {
                     deviceAddress = deviceAddress2; //832
                 }
             }
@@ -245,37 +249,50 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private static final int REQUEST_CODE_PERMISSIONS = 1;
+    private static final String[] REQUIRED_PERMISSIONS = {
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
     //@RequiresApi(api = Build.VERSION_CODES.M)
-    private void askCoarsePermission() {
-        final String locationPermission;
-        if (SDK_INT >= 29)
-            locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
-        else
-            locationPermission = android.Manifest.permission.ACCESS_COARSE_LOCATION;
-        if (this.checkSelfPermission(locationPermission) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{locationPermission}, REQUEST_CODE_COARSE_PERMISSION);
+    private boolean hasPermissions(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
         }
+        return true;
     }
 
-    private void askBluetoothPermission() {
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_CODE_BLUETOOTH_PERMISSION);
-
-        }
-    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (hasPermissions(REQUIRED_PERMISSIONS)) {
+                // All permissions granted, proceed with Bluetooth operations
 
-        if(requestCode == REQUEST_CODE_COARSE_PERMISSION){
-            Toast.makeText(this, "Coarse Permission Granted...", Toast.LENGTH_LONG).show();
-            askBluetoothPermission();
+            } else {
+                // Handle the case where some or all permissions were denied
+                // You might display a message to the user or disable Bluetooth functionality
+            }
         }
-
-
     }
+
     private void scanBluetoothDevices(boolean enable) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
 
         if (enable) {
             mLEScanner.startScan(mScanCallback);

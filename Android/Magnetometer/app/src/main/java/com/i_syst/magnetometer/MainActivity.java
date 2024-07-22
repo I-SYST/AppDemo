@@ -3,6 +3,7 @@ package com.i_syst.magnetometer;
 import static android.os.Build.VERSION.SDK_INT;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -50,11 +51,11 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     public static String deviceName = "BlueIOThingy";
-    private static String BLUEIO_UUID_SERVICE   =  "ef680400-9b35-4933-9b10-52ffa9740042";
-    private static String BLE_UUID_TMS_RAW_CHAR   =  "ef680406-9b35-4933-9b10-52ffa9740042";
+    private static String BLUEIO_UUID_SERVICE = "ef680400-9b35-4933-9b10-52ffa9740042";
+    private static String BLE_UUID_TMS_RAW_CHAR = "ef680406-9b35-4933-9b10-52ffa9740042";
     private static int MAX_ENTRIES = 20000;
     private int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
-    private static  int REQUEST_CODE_COARSE_PERMISSION = 1;
+    private static int REQUEST_CODE_COARSE_PERMISSION = 1;
     private static int REQUEST_CODE_BLUETOOTH_PERMISSION = 2;
     private static long SCAN_PERIOD = 10000;
     private BluetoothAdapter mBluetoothAdapter;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private String device_address;
     private boolean Notification_enable = false;
     private int counter = 0;
-    private ScanCallback mScanCallback = new ScanCallback(){
+    private ScanCallback mScanCallback = new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             //super.onScanResult(callbackType, result);
@@ -94,11 +95,14 @@ public class MainActivity extends AppCompatActivity {
             ScanRecord scanRecord = result.getScanRecord();
             byte[] scanData = scanRecord.getBytes();
             //String name = scanRecord.getDeviceName();
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
             String name = device.getName();
             String address = device.getAddress();
             //Device Badger_device = new Device(name,address);
-            if (name!= null ) {
-                if(name.equals(deviceName)){
+            if (name != null) {
+                if (name.equals(deviceName)) {
                     device_name = name;
                     device_address = address;
 
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
         @Override
         public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
@@ -116,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 //gatt.requestMtu(511);
                 gatt.discoverServices();
@@ -125,25 +135,32 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+
         @Override
-        public void onMtuChanged (BluetoothGatt gatt,
-                                  int mtu,
-                                  int status){
+        public void onMtuChanged(BluetoothGatt gatt,
+                                 int mtu,
+                                 int status) {
 
             Log.i(TAG, "MTU: " + mtu);
         }
+
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                    return;
+                }
+
                 //gatt.requestMtu(20);
                 mCustomService = gatt.getService(UUID.fromString(BLUEIO_UUID_SERVICE));
                 //mCustomService = gatt.getService(UUID.fromString("00000001-2a76-4901-a32a-db0eea85d0e5"));
-                if(mCustomService == null) {
+                if (mCustomService == null) {
                     Log.w(TAG, "Custom BLE Service not found");
                 }
 
 
-                if(Notification_enable == true){
+                if (Notification_enable == true) {
                     Characteristic = mCustomService.getCharacteristic(UUID.fromString(BLE_UUID_TMS_RAW_CHAR));
                     //Characteristic = mCustomService.getCharacteristic(UUID.fromString("00000003-2a76-4901-a32a-db0eea85d0e5"));
                     //gatt.setCharacteristicNotification(Characteristic, true);
@@ -174,9 +191,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("onCharacteristicRead", characteristic.getValue().toString());
             }
         }
+
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            if(status != BluetoothGatt.GATT_SUCCESS){
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+
+            if (status != BluetoothGatt.GATT_SUCCESS) {
                 Log.d("onCharacteristicWrite", "Failed write, retrying");
                 gatt.writeCharacteristic(characteristic);
             }
@@ -185,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
@@ -193,15 +217,15 @@ public class MainActivity extends AppCompatActivity {
             String s = Arrays.toString(data);
 
             if (data != null && data.length > 0) {
-                int magX = BytesToInt(data[12],data[13]);
-                int magY = BytesToInt(data[14],data[15]);
-                int magZ = BytesToInt(data[16],data[17]);
+                int magX = BytesToInt(data[12], data[13]);
+                int magY = BytesToInt(data[14], data[15]);
+                int magZ = BytesToInt(data[16], data[17]);
 
 
                 counter += 1;
-                Log.d("Raw data " + counter, "MagX: "+ magX + " MagY: " + magY +  " MagZ: " + magZ);
-                if (counter%20==0) {
-                    addEntry((float)magX, (float)magY, (float)magZ);
+                Log.d("Raw data " + counter, "MagX: " + magX + " MagY: " + magY + " MagZ: " + magZ);
+                if (counter % 20 == 0) {
+                    addEntry((float) magX, (float) magY, (float) magZ);
                 }
             }
         }
@@ -212,12 +236,12 @@ public class MainActivity extends AppCompatActivity {
     public static short BytesToInt(byte byte1, byte byte2) {
         //return  ((byte1 & 0xFF) << 8) |
         //        ((byte2 & 0xFF) << 0);
-        byte[] bytes = {byte2,byte1};
+        byte[] bytes = {byte2, byte1};
         short i = new BigInteger(bytes).shortValue();
         return i;
     }
-    public static byte[] InttoBytes(short value)
-    {
+
+    public static byte[] InttoBytes(short value) {
         //byte[] result = new byte[2];
         //result[0] = (byte) (i >> 8);
         //result[1] = (byte) (i /*>> 0*/);
@@ -226,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         buffer.putShort(value);
         return buffer.array();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
             finish();
+        } else {
+            Toast.makeText(this, R.string.ble_supported, Toast.LENGTH_SHORT).show();
         }
-        else{
-            Toast.makeText(this, R.string.ble_supported, Toast.LENGTH_SHORT).show();}
         askCoarsePermission();
         scanBluetoothDevices(true);
         Notification_enable = false;
@@ -252,25 +277,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Notification_enable = true;
-                if(mBluetoothGatt==null){
+
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                    return;
+                }
+
+                if (mBluetoothGatt == null) {
 
                     final BluetoothDevice bleDevice = mBluetoothAdapter.getRemoteDevice(device_address);
                     if (bleDevice == null) {
-                        Toast.makeText(MainActivity.this, "Device not found.  Unable to connect." , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Device not found.  Unable to connect.", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else{
+                    } else {
                         mBluetoothGatt = bleDevice.connectGatt(getBaseContext(), false, mGattCallback);
-                        if (mBluetoothGatt==null){
-                            Toast.makeText(MainActivity.this, "mBluetoothGatt null "+ mBluetoothGatt.getDevice().getName(), Toast.LENGTH_SHORT).show();
+                        if (mBluetoothGatt == null) {
+                            Toast.makeText(MainActivity.this, "mBluetoothGatt null " + mBluetoothGatt.getDevice().getName(), Toast.LENGTH_SHORT).show();
                             return;
-                        }else{
+                        } else {
                             Log.w(TAG, "mBluetoothGatt device: " + mBluetoothGatt.getDevice().getName());
                         }
 
                     }
-                }
-                else{
+                } else {
 
                     Characteristic = mCustomService.getCharacteristic(UUID.fromString(BLE_UUID_TMS_RAW_CHAR));
                     boolean registered = false;
@@ -292,6 +321,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Notification_enable = false;
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                    return;
+                }
                 mBluetoothGatt.setCharacteristicNotification(Characteristic, false);
                 mBluetoothGatt.disconnect();
                 mBluetoothGatt = null;
@@ -533,6 +566,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void askBluetoothPermission() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_CODE_BLUETOOTH_PERMISSION);
@@ -551,12 +589,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void scanBluetoothDevices(boolean enable) {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
 
         if (enable) {
             // Stops scanning after a pre-defined scan period.
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                        return;
+                    }
+
                     mLEScanner.stopScan(mScanCallback);
                     if(device_address!=null){
                         start_button.setEnabled(true);
