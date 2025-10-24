@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Added Accelerometer Demo Android App">
+      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/AndroidProjectSystem.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/deploymentTargetSelector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/deviceManager.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/migrations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/androidTest/java/com/example/accelerometerdemo/ExampleInstrumentedTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/cpp/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/cpp/accelerometerdemo.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/java/com/example/accelerometerdemo/AccelerometerDataPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/java/com/example/accelerometerdemo/MainActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/font/abeezee.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/layout/custom_spinner_item.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/layout/download_popup.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/layout/homepage.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/values/font_certs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/values/preloaded_fonts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/test/java/com/example/accelerometerdemo/ExampleUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/gradle/libs.versions.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/settings.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "DINDIN2007"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/I-SYST/AppDemo.git",
+    "accountId": "d9096d40-9adc-4de5-8bff-90e1d63160de"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="34W5doVm2rWFLWMsRzrZwoGRlfY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="" />
+      <created>1761316576828</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761316576828</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Accelerometer Demo Android App" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Accelerometer Demo Android App" />
+  </component>
+</project>
