@@ -57,7 +57,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
     private FileOutputStream fileOutputStream;
     private long firstLoggedTime = 0;
     private float userWeight = 70.0f; // Default weight
+
+    // Runnable to handle connection watchdog
+    private Runnable connectionWatchdog;
 
 
     /*█████╗████████╗░█████╗░██████╗░████████╗
@@ -404,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         statusTextView.setText("Status: Scan finished, device not found.");
                         Toast.makeText(MainActivity.this, "Device " + targetDeviceName + " not found.", Toast.LENGTH_SHORT).show();
+                        connectButton.setText("Search for Device"); // Reset button text
                     });
                 }
             }
@@ -413,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
         mLEScanner.startScan(mScanCallback);
     }
 
-    // BLE Scan Callback
+    // --- BLE Scan Callback ---
     private ScanCallback mScanCallback = new ScanCallback() {
         @SuppressLint("MissingPermission")
         @Override
@@ -474,6 +477,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Ensure previous connection is fully closed before starting new one
+        if (mBluetoothGatt != null) {
+            Log.d(TAG, "Closing previous GATT connection before reconnecting.");
+            mBluetoothGatt.close();
+            mBluetoothGatt = null;
+        }
+
+        // Clear any old handlers (like timeouts from previous session)
+        mHandler.removeCallbacksAndMessages(null);
+
         if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
             Toast.makeText(this, "BLUETOOTH_CONNECT permission required to connect.", Toast.LENGTH_SHORT).show();
             requestBlePermissions(this, REQUEST_CODE_BLUETOOTH_PERMISSION);
@@ -487,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(() -> statusTextView.setText("Status: Connecting to " + (device.getName() != null ? device.getName() : device.getAddress()) + "..."));
     }
 
-    // GATT Callbacks
+    // --- GATT Callbacks ---
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -514,23 +527,32 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         // DELAY FIX: Add small delay before discovering services
-                        mHandler.postDelayed(gatt::discoverServices, 300);
+                        mHandler.postDelayed(gatt::discoverServices, 500);
                         break;
 
                     case BluetoothProfile.STATE_DISCONNECTED:
                         Log.d(TAG, "Disconnected from GATT server.");
                         isConnecting = false;
+                        notificationEnabled = false;
+
+                        // Nullify service references to ensure fresh lookup next time
+                        mBlueIOService = null;
+                        mAccelerometerCharacteristic = null;
 
                         runOnUiThread(() -> {
                             statusTextView.setText("Status: Disconnected");
                             Toast.makeText(MainActivity.this, "Disconnected.", Toast.LENGTH_SHORT).show();
+
+                            // Reset chart data so re-connection starts fresh
                             accelerometerChart.clear();
+                            accelerometerChart.setData(new LineData()); // Empty data
                             dataPointCount = 0;
-                            notificationEnabled = false;
+
                             connectButton.setText("Search for Device");
                             chartLayout.setVisibility(View.GONE);
                         });
 
+                        // Ensure explicit close
                         gatt.close();
                         mBluetoothGatt = null;
                         break;
@@ -542,6 +564,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     statusTextView.setText("Status: Connection Failed (" + status + ")");
                     Toast.makeText(MainActivity.this, "Connection failed (Status: " + status + ")", Toast.LENGTH_LONG).show();
+                    connectButton.setText("Search for Device");
                 });
                 gatt.close();
                 mBluetoothGatt = null;
@@ -569,8 +592,17 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Skip config write, wait 600ms, then Prime Sensor.
-                Log.d(TAG, "Starting Sensor Priming Sequence (Config skipped)...");
+                // CRITICAL FIX: Set a "Watchdog" timer.
+                // If the "Priming" write callback never fires (common on reconnects),
+                // we force-enable the raw data stream after 1.5 seconds anyway.
+                connectionWatchdog = () -> {
+                    Log.w(TAG, "Watchdog triggered: Priming callback missing. Forcing Raw Data Enable.");
+                    enableRawDataNotification(gatt);
+                };
+                mHandler.postDelayed(connectionWatchdog, 1500);
+
+                // Start Sensor Priming Sequence
+                Log.d(TAG, "Starting Sensor Priming Sequence...");
                 mHandler.postDelayed(() -> enableQuaternionNotification(gatt), 600);
             }
             else Log.w(TAG, "onServicesDiscovered received: " + status);
@@ -586,7 +618,10 @@ public class MainActivity extends AppCompatActivity {
                 if (charUuid.equals(QUATERNION_CHAR_UUID)) {
                     Log.d(TAG, "Quaternion enabled (Sensor Primed). Now enabling Raw Accelerometer Data...");
 
-                    // Wait 100ms before enabling raw data to avoid race condition
+                    // Cancel the watchdog, since the callback worked!
+                    if (connectionWatchdog != null) mHandler.removeCallbacks(connectionWatchdog);
+
+                    // Wait 100ms before enabling raw data
                     mHandler.postDelayed(() -> enableRawDataNotification(gatt), 100);
                 }
                 // Check if we just enabled Raw Data (The Goal)
@@ -596,7 +631,14 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(() -> Toast.makeText(MainActivity.this, "Sensor Ready & Streaming", Toast.LENGTH_SHORT).show());
                 }
             }
-            else Log.e(TAG, "Descriptor write failed: " + status);
+            else {
+                Log.e(TAG, "Descriptor write failed: " + status);
+                // If priming failed, try skipping to raw data immediately
+                if (descriptor.getCharacteristic().getUuid().equals(QUATERNION_CHAR_UUID)) {
+                    Log.w(TAG, "Priming failed. Attempting to force Raw Data...");
+                    mHandler.postDelayed(() -> enableRawDataNotification(gatt), 100);
+                }
+            }
         }
 
         @Override
@@ -608,7 +650,12 @@ public class MainActivity extends AppCompatActivity {
     // --- Helper to Enable Quaternion (Priming) ---
     @SuppressLint("MissingPermission")
     private void enableQuaternionNotification(BluetoothGatt gatt) {
+        if (mBlueIOService == null) {
+            // Safety check: refresh service if null
+            mBlueIOService = gatt.getService(UUID.fromString(BLUEIO_UUID_SERVICE));
+        }
         if (mBlueIOService == null) return;
+
         BluetoothGattCharacteristic quatCharacteristic = mBlueIOService.getCharacteristic(QUATERNION_CHAR_UUID);
         if (quatCharacteristic != null) {
             setCharacteristicNotification(gatt, quatCharacteristic, true);
@@ -621,7 +668,11 @@ public class MainActivity extends AppCompatActivity {
     // --- Helper to Enable Raw Data ---
     @SuppressLint("MissingPermission")
     private void enableRawDataNotification(BluetoothGatt gatt) {
+        if (mBlueIOService == null) {
+            mBlueIOService = gatt.getService(UUID.fromString(BLUEIO_UUID_SERVICE));
+        }
         if (mBlueIOService == null) return;
+
         mAccelerometerCharacteristic = mBlueIOService.getCharacteristic(ACCELEROMETER_CHAR_UUID);
         if (mAccelerometerCharacteristic != null) {
             setCharacteristicNotification(gatt, mAccelerometerCharacteristic, true);
@@ -721,10 +772,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d(TAG, "Disconnecting from GATT server.");
+
+        // VERY IMPORTANT: Stop any pending tasks (like the watchdog or priming sequence)
+        mHandler.removeCallbacksAndMessages(null);
+
         mBluetoothGatt.disconnect();
-        runOnUiThread(() -> {
-            chartLayout.setVisibility(View.GONE);
-        });
     }
 
     /*████╗░██╗░░██╗░█████╗░██████╗░████████╗
@@ -924,6 +976,7 @@ public class MainActivity extends AppCompatActivity {
         return dataSet;
     }
 
+    // There is this small issue to fix: Failed to delete file: accelerometer_data.csv
     private void exportFileToPublicDirectory() {
         try {
             File privateFile = new File(getFilesDir(), filename);

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Added Accelerometer Demo Android App" />
+    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,12 +22,12 @@
     &quot;assignee&quot;: &quot;DINDIN2007&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/I-SYST/AppDemo.git",
-    "accountId": "de2cc1d3-3e39-4628-8993-ddc8bc80fbbc"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/I-SYST/AppDemo.git&quot;,
+    &quot;accountId&quot;: &quot;de2cc1d3-3e39-4628-8993-ddc8bc80fbbc&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -46,7 +46,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/dinhv/StudioProjects/AppDemo/Android/Accelerometer-Demo"
+    "last_opened_file_path": "/home/dinhv/StudioProjects/AppDemo"
   }
 }]]></component>
   <component name="TaskManager">
@@ -65,7 +65,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761320471846</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead">
+      <option name="closed" value="true" />
+      <created>1767803300693</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1767803300693</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -81,6 +89,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Accelerometer Demo Android App" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Accelerometer Demo Android App" />
+    <MESSAGE value="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
   </component>
 </project>
