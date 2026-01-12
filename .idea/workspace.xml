@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Fixed raw characteristic data that didn't stream after reconnect.">
+    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Small Typo fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/java/com/example/accelerometerdemo/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/java/com/example/accelerometerdemo/MainActivity.java" afterDir="false" />
     </list>
@@ -84,7 +84,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767825171827</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added missing permissions">
+      <option name="closed" value="true" />
+      <created>1768254160952</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1768254160952</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -102,6 +110,7 @@
     <MESSAGE value="Added Accelerometer Demo Android App" />
     <MESSAGE value="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
     <MESSAGE value="Fixed raw characteristic data that didn't stream after reconnect." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed raw characteristic data that didn't stream after reconnect." />
+    <MESSAGE value="Added missing permissions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added missing permissions" />
   </component>
 </project>
