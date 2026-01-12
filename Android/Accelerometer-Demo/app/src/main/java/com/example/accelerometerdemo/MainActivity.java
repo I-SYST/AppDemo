@@ -38,6 +38,7 @@ import android.widget.ToggleButton;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+zimport androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -89,13 +90,24 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_COARSE_PERMISSION = 1;
     private static final int REQUEST_CODE_BLUETOOTH_PERMISSION = 2;
     private ActivityResultContracts.RequestMultiplePermissions requestMultiplePermissionsContract;
-    private final String[] ANDROID_12_BLE_PERMISSIONS = new String[] {
+
+    // Bluetooth Permissions
+    private static final int REQUEST_CODE_PERMISSIONS = 1;
+
+    // All permissions needed for Android 12+ (API 31+)
+    private final String[] ANDROID_12_PERMISSIONS = new String[] {
             Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_CONNECT
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     };
-    private final String[] BLE_PERMISSIONS = new String[] {
+
+    // All permissions needed for Android 11 and below
+    private final String[] LEGACY_PERMISSIONS = new String[] {
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
     };
 
     // Bluetooth Scan Variables
@@ -140,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Runnable to handle connection watchdog
     private Runnable connectionWatchdog;
+
+    // Activity Result Launchers
+    private ActivityResultLauncher<Intent> bluetoothEnableLauncher;
+    private ActivityResultLauncher<String[]> permissionsLauncher;
 
 
     /*█████╗████████╗░█████╗░██████╗░████████╗
@@ -229,8 +245,10 @@ public class MainActivity extends AppCompatActivity {
             showDialog();
         });
 
+        /*
         // Permission handling setup
         requestMultiplePermissionsContract = new ActivityResultContracts.RequestMultiplePermissions();
+
         registerForActivityResult(requestMultiplePermissionsContract, isGranted -> {
             Log.d(TAG, "Permissions Launcher result: " + isGranted.toString());
 
@@ -261,9 +279,85 @@ public class MainActivity extends AppCompatActivity {
         requestBlePermissions(this, REQUEST_CODE_BLUETOOTH_PERMISSION);
         askCoarsePermission();
 
+        */
+
+        // Setup Activity Result Launchers
+        setupActivityResultLaunchers();
+
+        // Request permissions on startup
+        requestAllPermissions();
+
         // Reset the data saved from previous performances on the app
         boolean deleted = deleteFile(filename);
         Log.d(TAG, (deleted) ? "Successfully deleted file: " + filename : "Failed to delete file: " + filename);
+    }
+
+    private void setupActivityResultLaunchers() {
+        // Bluetooth Enable Launcher
+        bluetoothEnableLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Toast.makeText(this, "Bluetooth has been enabled.", Toast.LENGTH_SHORT).show();
+                        // Reinitialize scanner after bluetooth is enabled
+                        mLEScanner = mBluetoothAdapter.getBluetoothLeScanner();
+                        startScan();
+                    } else {
+                        Toast.makeText(this, "Bluetooth not enabled.", Toast.LENGTH_SHORT).show();
+                        runOnUiThread(() -> statusTextView.setText("Status: Bluetooth Disabled"));
+                    }
+                }
+        );
+
+        // Permissions Launcher
+        permissionsLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                result -> {
+                    Log.d(TAG, "Permissions result: " + result.toString());
+
+                    boolean allGranted = true;
+                    boolean locationGranted = false;
+                    boolean bluetoothGranted = false;
+
+                    // Check location permissions
+                    if (Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION)) ||
+                            Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_COARSE_LOCATION))) {
+                        locationGranted = true;
+                        Log.d(TAG, "Location permission granted");
+                    }
+
+                    // Check bluetooth permissions for Android 12+
+                    if (SDK_INT >= Build.VERSION_CODES.S) {
+                        if (Boolean.TRUE.equals(result.get(Manifest.permission.BLUETOOTH_SCAN)) &&
+                                Boolean.TRUE.equals(result.get(Manifest.permission.BLUETOOTH_CONNECT))) {
+                            bluetoothGranted = true;
+                            Log.d(TAG, "Bluetooth permissions granted");
+                        }
+                        allGranted = locationGranted && bluetoothGranted;
+                    } else {
+                        // For older Android versions, location is the main requirement
+                        allGranted = locationGranted;
+                        bluetoothGranted = true; // Legacy permissions don't need runtime request
+                    }
+
+                    if (allGranted) {
+                        Log.d(TAG, "All necessary permissions granted.");
+                        Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show();
+                        // Now check if Bluetooth is enabled
+                        enableBluetoothIfNeeded();
+                    } else {
+                        StringBuilder missingPermissions = new StringBuilder("Missing permissions: ");
+                        if (!locationGranted) {
+                            missingPermissions.append("Location ");
+                        }
+                        if (!bluetoothGranted) {
+                            missingPermissions.append("Bluetooth ");
+                        }
+                        Toast.makeText(this, missingPermissions.toString() + "\nApp may not function correctly.", Toast.LENGTH_LONG).show();
+                        Log.w(TAG, missingPermissions.toString());
+                    }
+                }
+        );
     }
 
     @Override
@@ -292,70 +386,101 @@ public class MainActivity extends AppCompatActivity {
     ██║░░░░░███████╗██║░░██║██║░╚═╝░██║██║██████╔╝██████╔╝██║╚█████╔╝██║░╚███║██████╔╝
     ╚═╝░░░░░╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═════╝░╚═════╝░╚═╝░╚════╝░╚═╝░░╚══╝╚═════*/
 
-    // Helper Method for Future Bluetooth Request
-    public boolean hasPermission(String permission) {
-        return ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_GRANTED;
+    // Helper Method to check if a permission is granted
+    private boolean hasPermission(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    // Request bluetooth permission to device
-    public void requestBlePermissions(Activity activity, int requestCode) {
-        if (SDK_INT >= Build.VERSION_CODES.S)
-            ActivityCompat.requestPermissions(activity, ANDROID_12_BLE_PERMISSIONS, requestCode);
-        else
-            ActivityCompat.requestPermissions(activity, BLE_PERMISSIONS, requestCode);
-    }
-
-    // A more general location permission request
-    private void askCoarsePermission() {
-        if (SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-                Boolean fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false);
-                Boolean coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false);
-
-                if (fineLocationGranted != null && fineLocationGranted)
-                    Toast.makeText(MainActivity.this, "Precise location access granted.", Toast.LENGTH_SHORT).show();
-
-                else if (coarseLocationGranted != null && coarseLocationGranted)
-                    Toast.makeText(MainActivity.this, "Only approximate location access granted.", Toast.LENGTH_SHORT).show();
-
-                else
-                    Toast.makeText(MainActivity.this, "No location access granted. BLE scanning may not work.", Toast.LENGTH_SHORT).show();
-            });
-
-            locationPermissionRequest.launch(BLE_PERMISSIONS);
+    // Check if all required permissions are granted
+    private boolean checkAllPermissions() {
+        if (SDK_INT >= Build.VERSION_CODES.S) {
+            // Android 12+ needs Bluetooth and Location permissions
+            return hasPermission(Manifest.permission.BLUETOOTH_SCAN) &&
+                    hasPermission(Manifest.permission.BLUETOOTH_CONNECT) &&
+                    (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
+                            hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION));
+        } else {
+            // Older Android versions need Location permission for BLE scanning
+            return hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
+                    hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        // For devices below Android version 10
-        else {
-            if (!hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_COARSE_PERMISSION);
+    }
+
+    // Request all necessary permissions
+    private void requestAllPermissions() {
+        List<String> permissionsToRequest = new ArrayList<>();
+
+        if (SDK_INT >= Build.VERSION_CODES.S) {
+            // Android 12+ permissions
+            if (!hasPermission(Manifest.permission.BLUETOOTH_SCAN)) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+            if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
         }
+
+        // Location permissions (needed for all Android versions for BLE scanning)
+        if (!hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (!hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+
+        if (!permissionsToRequest.isEmpty()) {
+            Log.d(TAG, "Requesting permissions: " + permissionsToRequest.toString());
+            permissionsLauncher.launch(permissionsToRequest.toArray(new String[0]));
+        } else {
+            Log.d(TAG, "All permissions already granted");
+            // All permissions granted, check if Bluetooth needs to be enabled
+            enableBluetoothIfNeeded();
+        }
     }
 
-    // A more general bluetooth permission request
-    private void askBluetoothPermission() {
+    // Enable Bluetooth if it's not already enabled
+    @SuppressLint("MissingPermission")
+    private void enableBluetoothIfNeeded() {
         if (!mBluetoothAdapter.isEnabled()) {
             if (SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
                 Toast.makeText(this, "BLUETOOTH_CONNECT permission needed to enable Bluetooth.", Toast.LENGTH_SHORT).show();
-                requestBlePermissions(this, REQUEST_CODE_BLUETOOTH_PERMISSION);
+                requestAllPermissions();
                 return;
             }
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             bluetoothEnableLauncher.launch(enableBtIntent);
+        } else {
+            // Bluetooth is already enabled, make sure scanner is initialized
+            if (mLEScanner == null) {
+                mLEScanner = mBluetoothAdapter.getBluetoothLeScanner();
+            }
         }
     }
 
-    // ActivityResultLauncher for enabling Bluetooth
-    private ActivityResultLauncher<Intent> bluetoothEnableLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK) {
-            Toast.makeText(this, "Bluetooth has been enabled.", Toast.LENGTH_SHORT).show();
-            startScan();
+    // Handle permission results from the old callback system (fallback)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            boolean allGranted = true;
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    allGranted = false;
+                    Log.w(TAG, "Permission denied: " + permissions[i]);
+                } else {
+                    Log.d(TAG, "Permission granted: " + permissions[i]);
+                }
+            }
+
+            if (allGranted) {
+                Log.d(TAG, "All permissions granted via callback");
+                enableBluetoothIfNeeded();
+            } else {
+                Toast.makeText(this, "Some permissions were denied. App may not function correctly.", Toast.LENGTH_LONG).show();
+            }
         }
-        else {
-            Toast.makeText(this, "Bluetooth not enabled.", Toast.LENGTH_SHORT).show();
-            runOnUiThread(() -> statusTextView.setText("Status: Bluetooth Disabled"));
-        }
-    });
+    }
 
 
     /*█████╗░█████╗░░█████╗░███╗░░██╗
@@ -368,25 +493,30 @@ public class MainActivity extends AppCompatActivity {
     // Start scanning the devices nearby
     @SuppressLint("MissingPermission")
     private void startScan() {
+        // Check if Bluetooth is enabled
         if (!mBluetoothAdapter.isEnabled()) {
-            Toast.makeText(this, "Bluetooth not enabled. Asking for permission...", Toast.LENGTH_SHORT).show();
-            askBluetoothPermission();
+            Toast.makeText(this, "Bluetooth not enabled. Please enable it.", Toast.LENGTH_SHORT).show();
+            enableBluetoothIfNeeded();
+            connectButton.setText("Search for Device");
             return;
         }
 
+        // Check permissions
+        if (!checkAllPermissions()) {
+            Toast.makeText(this, "Required permissions not granted.", Toast.LENGTH_SHORT).show();
+            requestAllPermissions();
+            connectButton.setText("Search for Device");
+            return;
+        }
+
+        // Initialize scanner if needed
         if (mLEScanner == null) {
-            Toast.makeText(this, "BLE Scanner not initialized. Bluetooth may be off or unsupported.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (SDK_INT >= Build.VERSION_CODES.S && !hasPermission(Manifest.permission.BLUETOOTH_SCAN)) {
-            Toast.makeText(this, "BLUETOOTH_SCAN permission required to start scan.", Toast.LENGTH_SHORT).show();
-            requestBlePermissions(this, REQUEST_CODE_BLUETOOTH_PERMISSION);
-            return;
-        }
-        else if (SDK_INT < Build.VERSION_CODES.S && !hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Toast.makeText(this,"Location permission required to start scan.", Toast.LENGTH_SHORT).show();
-            return;
+            mLEScanner = mBluetoothAdapter.getBluetoothLeScanner();
+            if (mLEScanner == null) {
+                Toast.makeText(this, "BLE Scanner not available. Please try again.", Toast.LENGTH_SHORT).show();
+                connectButton.setText("Search for Device");
+                return;
+            }
         }
 
         Log.d(TAG, "Starting BLE scan for device: " + targetDeviceName);
@@ -396,27 +526,35 @@ public class MainActivity extends AppCompatActivity {
         discoveredDeviceName = null;
         discoveredDeviceAddress = null;
 
+        // Stop scan after SCAN_PERIOD
         mHandler.postDelayed(() -> {
             if (mBluetoothAdapter.isEnabled() && mLEScanner != null) {
-                if (!hasPermission(Manifest.permission.BLUETOOTH_SCAN)) return;
-                mLEScanner.stopScan(mScanCallback);
+                try {
+                    mLEScanner.stopScan(mScanCallback);
+                } catch (SecurityException e) {
+                    Log.e(TAG, "SecurityException stopping scan: " + e.getMessage());
+                }
 
                 Log.d(TAG, "Scan stopped by timeout.");
                 if (discoveredDeviceAddress == null) {
                     runOnUiThread(() -> {
                         statusTextView.setText("Status: Scan finished, device not found.");
                         Toast.makeText(MainActivity.this, "Device " + targetDeviceName + " not found.", Toast.LENGTH_SHORT).show();
-                        connectButton.setText("Search for Device"); // Reset button text
+                        connectButton.setText("Search for Device");
                     });
                 }
             }
         }, SCAN_PERIOD);
 
-        if (!hasPermission(Manifest.permission.BLUETOOTH_SCAN)) return;
-        mLEScanner.startScan(mScanCallback);
+        try {
+            mLEScanner.startScan(mScanCallback);
+        } catch (SecurityException e) {
+            Log.e(TAG, "SecurityException starting scan: " + e.getMessage());
+            Toast.makeText(this, "Cannot start scan. Please check permissions.", Toast.LENGTH_SHORT).show();
+            connectButton.setText("Search for Device");
+        }
     }
 
-    // --- BLE Scan Callback ---
     private ScanCallback mScanCallback = new ScanCallback() {
         @SuppressLint("MissingPermission")
         @Override
@@ -424,25 +562,34 @@ public class MainActivity extends AppCompatActivity {
             super.onScanResult(callbackType, result);
             BluetoothDevice device = result.getDevice();
 
-            if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
-                Log.d(TAG, "Check Bluetooth permissions again");
+            if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT) && SDK_INT >= Build.VERSION_CODES.S) {
+                Log.d(TAG, "BLUETOOTH_CONNECT permission not granted");
                 return;
             }
 
-            String name = device.getName();
+            String name = null;
+            try {
+                name = device.getName();
+            } catch (SecurityException e) {
+                Log.e(TAG, "SecurityException getting device name: " + e.getMessage());
+                return;
+            }
+
             String address = device.getAddress();
-            List<ParcelUuid> uuids = result.getScanRecord().getServiceUuids();
+            List<ParcelUuid> uuids = result.getScanRecord() != null ? result.getScanRecord().getServiceUuids() : null;
 
             if (name != null && name.equals(targetDeviceName)) {
-                if (SDK_INT >= Build.VERSION_CODES.O)
-                    Log.d(TAG, "Found target device: " + name + ", address: " + address + ", UUIDs " + (uuids != null ? uuids.toString() : "null"));
+                Log.d(TAG, "Found target device: " + name + ", address: " + address + ", UUIDs " + (uuids != null ? uuids.toString() : "null"));
 
                 discoveredDeviceName = name;
                 discoveredDeviceAddress = address;
 
                 if (mBluetoothAdapter.isEnabled()) {
-                    if (!hasPermission(Manifest.permission.BLUETOOTH_SCAN)) return;
-                    mLEScanner.stopScan(this);
+                    try {
+                        mLEScanner.stopScan(this);
+                    } catch (SecurityException e) {
+                        Log.e(TAG, "SecurityException stopping scan: " + e.getMessage());
+                    }
                     mHandler.removeCallbacksAndMessages(null);
                     connectToDevice(device);
                 }
@@ -453,7 +600,10 @@ public class MainActivity extends AppCompatActivity {
         public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
             Log.e(TAG, "Scan Failed: " + errorCode);
-            runOnUiThread(() -> Toast.makeText(MainActivity.this, "Scan Failed: " + errorCode, Toast.LENGTH_LONG).show());
+            runOnUiThread(() -> {
+                Toast.makeText(MainActivity.this, "Scan Failed: " + errorCode, Toast.LENGTH_LONG).show();
+                connectButton.setText("Search for Device");
+            });
             isConnecting = false;
         }
     };
@@ -489,7 +639,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
             Toast.makeText(this, "BLUETOOTH_CONNECT permission required to connect.", Toast.LENGTH_SHORT).show();
-            requestBlePermissions(this, REQUEST_CODE_BLUETOOTH_PERMISSION);
+            requestAllPermissions();
             return;
         }
 

@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
+    <list default="true" id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="Fixed raw characteristic data that didn't stream after reconnect.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/java/com/example/accelerometerdemo/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Android/Accelerometer-Demo/app/src/main/java/com/example/accelerometerdemo/MainActivity.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,19 +39,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/dinhv/StudioProjects/AppDemo"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/dinhv/StudioProjects/AppDemo&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="416fbe2a-07b4-4b0f-894b-becd8aff9543" name="Changes" comment="" />
@@ -73,7 +76,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767803300693</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed raw characteristic data that didn't stream after reconnect.">
+      <option name="closed" value="true" />
+      <created>1767825171827</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1767825171827</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -90,6 +101,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Accelerometer Demo Android App" />
     <MESSAGE value="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Gradle to version 8.13, removed configuration characteristic (since it wasn't defined in IOSonata yet), and primed the sensor by calling the Quaternion handler instead" />
+    <MESSAGE value="Fixed raw characteristic data that didn't stream after reconnect." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed raw characteristic data that didn't stream after reconnect." />
   </component>
 </project>
