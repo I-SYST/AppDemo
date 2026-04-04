@@ -1,6 +1,6 @@
 # Accelerometer-Demo
 
-This project is meant to display motion data provided by the ICM-20948 sensor on the BLUEIO-TAG-EVIM sensor board through BLE.
+This project is meant to display motion data provided by the ICM-20948 sensor on the BLUEIO-TAG-EVIM sensor board through BLE. It is currently only available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.isyst.accelerometerdemo).
 
 ## App Features
 - **Bluetooth Low Energy (BLE) Connectivity:** Connects to the sensor board using the GATT communication protocol after requesting Bluetooth permissions.
